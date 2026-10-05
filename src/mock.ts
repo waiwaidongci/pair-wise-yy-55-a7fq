@@ -1,4 +1,4 @@
-import type { ScoreComment, ScoreNote, ScoreVersion, Track } from './types'
+import type { PartLayout, ScoreComment, ScoreNote, ScoreVersion, Track } from './types'
 
 const notes = (keys: string[]): ScoreNote[] => keys.map((key, index) => ({ id: `N-${index + 1}`, key, duration: index % 4 === 0 ? 'h' : 'q', dynamic: index < 2 ? 'mp' : 'mf', tie: index === 2, expression: index === 3 ? 'dolce' : '' }))
 
@@ -10,10 +10,12 @@ export const seedTracks: Track[] = [
 ]
 
 export const seedComments: ScoreComment[] = [
-  { id: 'CM-1', measure: 2, author: '指挥 · 方亦', content: '圆号第 2 小节进入需再弱一级，避免覆盖大提琴主题。', resolved: false },
+  { id: 'CM-1', measure: 2, trackId: 'TR-03', author: '指挥 · 方亦', content: '圆号第 2 小节进入需再弱一级，避免覆盖大提琴主题。', resolved: false },
   { id: 'CM-2', measure: 3, author: '作曲 · 沈青', content: '第 3 小节末音增加延音线，与下一小节第一拍连奏。', resolved: false },
-  { id: 'CM-3', measure: 6, author: '出版 · 赵晴', content: '单簧管分谱需在换页处保留 2 小节提示音。', resolved: true },
+  { id: 'CM-3', measure: 6, trackId: 'TR-02', author: '出版 · 赵晴', content: '单簧管分谱需在换页处保留 2 小节提示音。', resolved: true },
 ]
+
+export const seedParts: PartLayout[] = seedTracks.map((track) => ({ trackId: track.id, pageTurnMeasure: 3, cueMeasure: 2, stale: false }))
 
 export const seedVersions: ScoreVersion[] = [
   { id: 'v12', author: '沈青', time: '今天 16:28', summary: '调整终段和声，补充圆号力度与连音线', trackNotes: { 'TR-03': seedTracks[2]!.notes } },
